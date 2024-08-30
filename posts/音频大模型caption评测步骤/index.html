@@ -1,0 +1,506 @@
+<!doctype html><html itemscope itemtype=http://schema.org/WebPage lang=zh-CN><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=2"><meta name=robots content="noodp"><title>音频大模型caption评测步骤 - zhiheng的小站</title><meta name=author content="zhiheng">
+<meta name=author-link content="https://github.com/zhihengAI"><meta name=description content><meta name=keywords content='LLM'><meta itemprop=name content="音频大模型caption评测步骤"><meta itemprop=datePublished content="2024-08-16T22:39:57+08:00"><meta itemprop=dateModified content="2024-08-16T22:39:57+08:00"><meta itemprop=wordCount content="2248"><meta itemprop=image content="https://zhihengai.github.io/logo.png"><meta property="og:url" content="https://zhihengai.github.io/posts/%E9%9F%B3%E9%A2%91%E5%A4%A7%E6%A8%A1%E5%9E%8Bcaption%E8%AF%84%E6%B5%8B%E6%AD%A5%E9%AA%A4/"><meta property="og:site_name" content="zhiheng的小站"><meta property="og:title" content="音频大模型caption评测步骤"><meta property="og:locale" content="zh_CN"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2024-08-16T22:39:57+08:00"><meta property="article:modified_time" content="2024-08-16T22:39:57+08:00"><meta property="og:image" content="https://zhihengai.github.io/logo.png"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://zhihengai.github.io/logo.png"><meta name=twitter:title content="音频大模型caption评测步骤"><meta name=application-name content="Zhiheng的小站"><meta name=apple-mobile-web-app-title content="Zhiheng的小站"><meta name=theme-color data-light=#f8f8f8 data-dark=#252627 content="#f8f8f8"><meta name=msapplication-TileColor content="#da532c"><link rel=icon href=../../favicon.svg><link rel=apple-touch-icon sizes=180x180 href=../../apple-touch-icon.png><link rel=mask-icon href=../../safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=../../site.webmanifest><link rel=canonical href=https://zhihengai.github.io/posts/%E9%9F%B3%E9%A2%91%E5%A4%A7%E6%A8%A1%E5%9E%8Bcaption%E8%AF%84%E6%B5%8B%E6%AD%A5%E9%AA%A4/><link rel=prev href=https://zhihengai.github.io/posts/deepspeed%E5%A4%9A%E6%9C%BA%E5%A4%9A%E5%8D%A1%E8%AE%AD%E7%BB%83%E4%B8%AD%E9%85%8D%E7%BD%AE%E4%BB%A5%E5%8F%8A%E5%87%BA%E7%8E%B0%E7%9A%84%E9%97%AE%E9%A2%98/><link rel=next href=https://zhihengai.github.io/posts/3%E5%88%86%E9%92%9F%E5%88%A9%E7%94%A8ai%E5%88%B6%E4%BD%9Cppt/><link rel=stylesheet href=../../css/style.min.a44d485d0787e7e56899f12d2ccd83c54489c789b0627fdd0cf7fc2a1e3f8f93.css integrity="sha256-pE1IXQeH5+VomfEtLM2DxUSJx4mwYn/dDPf8Kh4/j5M="><link rel=preload href=../../lib/fontawesome-free/all.min.534c7ac9d4ef5cb29828c4d571a05399871edec50f5b8c72372379bed20fb033.css integrity="sha256-U0x6ydTvXLKYKMTVcaBTmYce3sUPW4xyNyN5vtIPsDM=" as=style onload='this.removeAttribute("onload"),this.rel="stylesheet"'><noscript><link rel=stylesheet href=../../lib/fontawesome-free/all.min.534c7ac9d4ef5cb29828c4d571a05399871edec50f5b8c72372379bed20fb033.css integrity="sha256-U0x6ydTvXLKYKMTVcaBTmYce3sUPW4xyNyN5vtIPsDM="></noscript><link rel=preload href=../../lib/animate/animate.min.a61e123314188bd0453320008e01b4bbb665bee09039f4cbd9bef44de410ce67.css integrity="sha256-ph4SMxQYi9BFMyAAjgG0u7ZlvuCQOfTL2b70TeQQzmc=" as=style onload='this.removeAttribute("onload"),this.rel="stylesheet"'><noscript><link rel=stylesheet href=../../lib/animate/animate.min.a61e123314188bd0453320008e01b4bbb665bee09039f4cbd9bef44de410ce67.css integrity="sha256-ph4SMxQYi9BFMyAAjgG0u7ZlvuCQOfTL2b70TeQQzmc="></noscript><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"音频大模型caption评测步骤","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/zhihengai.github.io\/posts\/%E9%9F%B3%E9%A2%91%E5%A4%A7%E6%A8%A1%E5%9E%8Bcaption%E8%AF%84%E6%B5%8B%E6%AD%A5%E9%AA%A4\/"},"image":["https:\/\/zhihengai.github.io\/favicon.ico"],"genre":"posts","keywords":"LLM","wordcount":2248,"url":"https:\/\/zhihengai.github.io\/posts\/%E9%9F%B3%E9%A2%91%E5%A4%A7%E6%A8%A1%E5%9E%8Bcaption%E8%AF%84%E6%B5%8B%E6%AD%A5%E9%AA%A4\/","datePublished":"2024-08-16T22:39:57+08:00","dateModified":"2024-08-16T22:39:57+08:00","publisher":{"@type":"Organization","name":"Leehow","logo":"https:\/\/zhihengai.github.io\/logo.png"},"author":{"@type":"Person","name":"zhiheng"},"description":""}</script></head><body data-header-desktop=sticky data-header-mobile=auto><script>(window.localStorage?.getItem("theme")?localStorage.getItem("theme")==="dark":"auto"==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches:"auto"==="dark")&&document.body.setAttribute("data-theme","dark")</script><div class=wrapper data-page-style=normal><header class="desktop animate__faster" id=header-desktop><div class=header-wrapper><div class=header-title><a href=../../ title=zhiheng的小站><img loading=lazy src=../../logo.png alt=zhiheng的小站 data-title=zhiheng的小站 width=26 height=26 class=logo style="background:url(/images/loading.min.svg)no-repeat 50%" onload='this.title=this.dataset.title;for(const e of["style","data-title","onerror","onload"])this.removeAttribute(e);this.dataset.lazyloaded=""' onerror='this.title=this.dataset.title;for(const e of["style","data-title","onerror","onload"])this.removeAttribute(e)'><span class=header-title-text>Zhiheng的小站</span></a><span class=header-subtitle></span></div><nav><ul class=menu><li class=menu-item><a class=menu-link href=../../posts/><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden=true></i> 文章</a></li><li class=menu-item><a class=menu-link href=../../categories/><i class="fa-solid fa-th fa-fw fa-sm" aria-hidden=true></i> 分类</a></li><li class=menu-item><a class=menu-link href=../../tags/><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden=true></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id=search-desktop><input type=text placeholder=搜索文章标题或内容…… id=search-input-desktop>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=搜索><i class="fa-solid fa-search fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=清空><i class="fa-solid fa-times-circle fa-fw" aria-hidden=true></i>
+</a><span class="search-button search-loading" id=search-loading-desktop><i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden=true></i></span></li><li class="menu-item theme-switch" title=切换主题><i class="fa-solid fa-adjust fa-fw" aria-hidden=true></i></li></ul></nav></div></header><header class="mobile animate__faster" id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=../../ title=zhiheng的小站><img loading=lazy src=../../logo.png alt=zhiheng的小站 data-title=zhiheng的小站 width=26 height=26 class=logo style="background:url(/images/loading.min.svg)no-repeat 50%" onload='this.title=this.dataset.title;for(const e of["style","data-title","onerror","onload"])this.removeAttribute(e);this.dataset.lazyloaded=""' onerror='this.title=this.dataset.title;for(const e of["style","data-title","onerror","onload"])this.removeAttribute(e)'><span class=header-title-text>Zhiheng的小站</span></a><span class=header-subtitle></span></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><nav><ul class=menu id=menu-mobile><li class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=搜索文章标题或内容…… id=search-input-mobile>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=搜索><i class="fa-solid fa-search fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=清空><i class="fa-solid fa-times-circle fa-fw" aria-hidden=true></i>
+</a><span class="search-button search-loading" id=search-loading-mobile><i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden=true></i></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>取消</a></li><li class=menu-item><a class=menu-link href=../../posts/><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden=true></i> 文章</a></li><li class=menu-item><a class=menu-link href=../../categories/><i class="fa-solid fa-th fa-fw fa-sm" aria-hidden=true></i> 分类</a></li><li class=menu-item><a class=menu-link href=../../tags/><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden=true></i> 标签</a></li><li class="menu-item menu-system"><span class="menu-system-item theme-switch" title=切换主题><i class="fa-solid fa-adjust fa-fw" aria-hidden=true></i></span></li></ul></nav></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=container><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label=合集></aside><article class="page single"><div class=header><h1 class="single-title animate__animated animate__flipInX"><span>音频大模型caption评测步骤</span></h1></div><div class=post-meta><div class=post-meta-line><span class=post-author><a href=https://github.com/zhihengAI title=作者 target=_blank rel="external nofollow noopener noreferrer author" class=author><img loading=lazy src="https://cn.gravatar.com/avatar/708c70a0a755b055c5621ca0f735469d?s=32&amp;d=identicon" alt=zhiheng data-title=zhiheng width=20 height=20 class=avatar style="background:url(/images/loading.min.svg)no-repeat 50%" onload='this.title=this.dataset.title;for(const e of["style","data-title","onerror","onload"])this.removeAttribute(e);this.dataset.lazyloaded=""' onerror='this.title=this.dataset.title;for(const e of["style","data-title","onerror","onload"])this.removeAttribute(e)'>&nbsp;zhiheng</a></span><span class=post-included-in>&nbsp;收录于 和</span></div><div class=post-meta-line><span title="发布于 2024-08-16 22:39:57"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden=true></i><time datetime="2024-08-16 22:39:57">2024-08-16 22:39:57</time></span>&nbsp;<span title="2248 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden=true></i>约 2300 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden=true></i>预计阅读 5 分钟</span>&nbsp;</div></div><div class="details toc" id=toc-static data-kept=false><div class="details-summary toc-title"><span>目录</span>
+<span><i class="details-icon fa-solid fa-angle-right" aria-hidden=true></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#heading></a><ul><li><a href=#1-加载相应的库>1. 加载相应的库</a></li><li><a href=#2-加载模型>2. 加载模型</a></li><li><a href=#3-加载数据集>3. 加载数据集</a></li><li><a href=#4-评测数据过大模型得到输出>4. 评测数据过大模型得到输出</a></li><li><a href=#5-开始评测>5. 开始评测</a></li><li><a href=#6-遇到的错误以及解决方案>6. 遇到的错误以及解决方案</a></li></ul></li></ul></nav></div></div><div class=content id=content><h2 id=heading class=heading-element><span></span>
+<a href=#heading class=heading-mark><svg class="octicon octicon-link" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5.0 114.95 4.95l-2.5 2.5a3.5 3.5.0 01-4.95.0.751.751.0 01.018-1.042.751.751.0 011.042-.018 1.998 1.998.0 002.83.0l2.5-2.5a2.002 2.002.0 00-2.83-2.83l-1.25 1.25a.751.751.0 01-1.042-.018.751.751.0 01-.018-1.042zm-4.69 9.64a1.998 1.998.0 002.83.0l1.25-1.25a.751.751.0 011.042.018.751.751.0 01.018 1.042l-1.25 1.25a3.5 3.5.0 11-4.95-4.95l2.5-2.5a3.5 3.5.0 014.95.0.751.751.0 01-.018 1.042.751.751.0 01-1.042.018 1.998 1.998.0 00-2.83.0l-2.5 2.5a1.998 1.998.0 000 2.83z"/></svg></a></h2><p>其实评测也是很经典的一套流程，读取评测数据，弄成想要的格式->加载自己的模型->将数据的问题过大模型，拿到输出->将这些输出计算你想要的指标。这里的指标对应到音频大模型caption的话就是Bleu_1, Bleu_2, Bleu_3, Bleu_4, METEOR, ROUGE_L, CIDEr, SPICE。</p><p>这里拿 <a href=https://github.com/QwenLM/Qwen-Audio target=_blank rel="external nofollow noopener noreferrer">Qwen-Audio</a> 的评测代码做codebase。说明放在代码注释里面了。</p><br><h3 id=1-加载相应的库 class=heading-element><span>1. 加载相应的库</span>
+<a href=#1-%e5%8a%a0%e8%bd%bd%e7%9b%b8%e5%ba%94%e7%9a%84%e5%ba%93 class=heading-mark><svg class="octicon octicon-link" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5.0 114.95 4.95l-2.5 2.5a3.5 3.5.0 01-4.95.0.751.751.0 01.018-1.042.751.751.0 011.042-.018 1.998 1.998.0 002.83.0l2.5-2.5a2.002 2.002.0 00-2.83-2.83l-1.25 1.25a.751.751.0 01-1.042-.018.751.751.0 01-.018-1.042zm-4.69 9.64a1.998 1.998.0 002.83.0l1.25-1.25a.751.751.0 011.042.018.751.751.0 01.018 1.042l-1.25 1.25a3.5 3.5.0 11-4.95-4.95l2.5-2.5a3.5 3.5.0 014.95.0.751.751.0 01-.018 1.042.751.751.0 01-1.042.018 1.998 1.998.0 00-2.83.0l-2.5 2.5a1.998 1.998.0 000 2.83z"/></svg></a></h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=kn>import</span> <span class=nn>argparse</span>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=nn>itertools</span>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=nn>json</span>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=nn>os</span>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=nn>random</span>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=nn>time</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>functools</span> <span class=kn>import</span> <span class=n>partial</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>metrics</span> <span class=kn>import</span> <span class=n>CocoTokenizer</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>caption_evaluation_tools.coco_caption.pycocoevalcap.bleu.bleu</span> <span class=kn>import</span> <span class=n>Bleu</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>caption_evaluation_tools.coco_caption.pycocoevalcap.meteor.meteor</span> <span class=kn>import</span> <span class=n>Meteor</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>caption_evaluation_tools.coco_caption.pycocoevalcap.rouge.rouge</span> <span class=kn>import</span> <span class=n>Rouge</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>caption_evaluation_tools.coco_caption.pycocoevalcap.cider.cider</span> <span class=kn>import</span> <span class=n>Cider</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>caption_evaluation_tools.coco_caption.pycocoevalcap.spice.spice</span> <span class=kn>import</span> <span class=n>Spice</span>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=nn>torch</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>config</span> <span class=kn>import</span> <span class=o>*</span>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=nn>sys</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>tqdm</span> <span class=kn>import</span> <span class=n>tqdm</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>transformers</span> <span class=kn>import</span> <span class=n>AutoModelForCausalLM</span><span class=p>,</span> <span class=n>AutoTokenizer</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=nn>你自己的模型</span></span></span></code></pre></td></tr></table></div></div><br><p>注意，这里的caption_evaluation_tools库需要从这里下载https://github.com/audio-captioning/caption-evaluation-tools</p><br><h3 id=2-加载模型 class=heading-element><span>2. 加载模型</span>
+<a href=#2-%e5%8a%a0%e8%bd%bd%e6%a8%a1%e5%9e%8b class=heading-mark><svg class="octicon octicon-link" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5.0 114.95 4.95l-2.5 2.5a3.5 3.5.0 01-4.95.0.751.751.0 01.018-1.042.751.751.0 011.042-.018 1.998 1.998.0 002.83.0l2.5-2.5a2.002 2.002.0 00-2.83-2.83l-1.25 1.25a.751.751.0 01-1.042-.018.751.751.0 01-.018-1.042zm-4.69 9.64a1.998 1.998.0 002.83.0l1.25-1.25a.751.751.0 011.042.018.751.751.0 01.018 1.042l-1.25 1.25a3.5 3.5.0 11-4.95-4.95l2.5-2.5a3.5 3.5.0 014.95.0.751.751.0 01-.018 1.042.751.751.0 01-1.042.018 1.998 1.998.0 00-2.83.0l-2.5 2.5a1.998 1.998.0 000 2.83z"/></svg></a></h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=c1># 多卡初始化</span>
+</span></span><span class=line><span class=cl><span class=n>torch</span><span class=o>.</span><span class=n>distributed</span><span class=o>.</span><span class=n>init_process_group</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=n>backend</span><span class=o>=</span><span class=s1>&#39;nccl&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>world_size</span><span class=o>=</span><span class=nb>int</span><span class=p>(</span><span class=n>os</span><span class=o>.</span><span class=n>getenv</span><span class=p>(</span><span class=s1>&#39;WORLD_SIZE&#39;</span><span class=p>,</span> <span class=s1>&#39;1&#39;</span><span class=p>)),</span>
+</span></span><span class=line><span class=cl>    <span class=n>rank</span><span class=o>=</span><span class=nb>int</span><span class=p>(</span><span class=n>os</span><span class=o>.</span><span class=n>getenv</span><span class=p>(</span><span class=s1>&#39;RANK&#39;</span><span class=p>,</span> <span class=s1>&#39;0&#39;</span><span class=p>)),</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>torch</span><span class=o>.</span><span class=n>cuda</span><span class=o>.</span><span class=n>set_device</span><span class=p>(</span><span class=nb>int</span><span class=p>(</span><span class=n>os</span><span class=o>.</span><span class=n>getenv</span><span class=p>(</span><span class=s1>&#39;LOCAL_RANK&#39;</span><span class=p>,</span> <span class=mi>0</span><span class=p>)))</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>prompt</span> <span class=o>=</span> <span class=s1>&#39;&#39;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 传入的参数</span>
+</span></span><span class=line><span class=cl><span class=n>parser</span> <span class=o>=</span> <span class=n>argparse</span><span class=o>.</span><span class=n>ArgumentParser</span><span class=p>(</span><span class=n>description</span><span class=o>=</span><span class=s1>&#39;val parameters&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>parser</span><span class=o>.</span><span class=n>add_argument</span><span class=p>(</span><span class=s1>&#39;--checkpoint&#39;</span><span class=p>,</span> <span class=nb>type</span><span class=o>=</span><span class=nb>str</span><span class=p>,</span> <span class=n>default</span><span class=o>=</span><span class=s1>&#39;&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>parser</span><span class=o>.</span><span class=n>add_argument</span><span class=p>(</span><span class=s1>&#39;--tokenizer&#39;</span><span class=p>,</span> <span class=nb>type</span><span class=o>=</span><span class=nb>str</span><span class=p>,</span> <span class=n>default</span><span class=o>=</span><span class=s1>&#39;&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>parser</span><span class=o>.</span><span class=n>add_argument</span><span class=p>(</span><span class=s1>&#39;--mode&#39;</span><span class=p>,</span> <span class=nb>type</span><span class=o>=</span><span class=nb>str</span><span class=p>,</span> <span class=n>default</span><span class=o>=</span><span class=s1>&#39;validate&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>parser</span><span class=o>.</span><span class=n>add_argument</span><span class=p>(</span><span class=s1>&#39;--dataset&#39;</span><span class=p>,</span> <span class=nb>type</span><span class=o>=</span><span class=nb>str</span><span class=p>,</span> <span class=n>default</span><span class=o>=</span><span class=s1>&#39;clotho&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>parser</span><span class=o>.</span><span class=n>add_argument</span><span class=p>(</span><span class=s1>&#39;--batch_size&#39;</span><span class=p>,</span> <span class=nb>type</span><span class=o>=</span><span class=nb>int</span><span class=p>,</span> <span class=n>default</span><span class=o>=</span><span class=mi>1</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>parser</span><span class=o>.</span><span class=n>add_argument</span><span class=p>(</span><span class=s1>&#39;--num_workers&#39;</span><span class=p>,</span> <span class=nb>type</span><span class=o>=</span><span class=nb>int</span><span class=p>,</span> <span class=n>default</span><span class=o>=</span><span class=mi>1</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>parser</span><span class=o>.</span><span class=n>add_argument</span><span class=p>(</span><span class=s1>&#39;--seed&#39;</span><span class=p>,</span> <span class=nb>type</span><span class=o>=</span><span class=nb>int</span><span class=p>,</span> <span class=n>default</span><span class=o>=</span><span class=mi>42</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=c1># ....</span>
+</span></span><span class=line><span class=cl><span class=n>args</span> <span class=o>=</span> <span class=n>parser</span><span class=o>.</span><span class=n>parse_args</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 如果你的模型加载方式不是这样，就改成自己加载模型的代码就行</span>
+</span></span><span class=line><span class=cl><span class=n>model</span> <span class=o>=</span> <span class=n>AutoModelForCausalLM</span><span class=o>.</span><span class=n>from_pretrained</span><span class=p>(</span><span class=n>args</span><span class=o>.</span><span class=n>checkpoint</span><span class=p>,</span> <span class=n>device_map</span><span class=o>=</span><span class=s1>&#39;cuda&#39;</span><span class=p>,</span> <span class=n>trust_remote_code</span><span class=o>=</span><span class=kc>True</span><span class=p>)</span><span class=o>.</span><span class=n>eval</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>tokenizer</span> <span class=o>=</span> <span class=n>AutoTokenizer</span><span class=o>.</span><span class=n>from_pretrained</span><span class=p>(</span><span class=n>args</span><span class=o>.</span><span class=n>tokenizer</span><span class=p>,</span> <span class=n>trust_remote_code</span><span class=o>=</span><span class=kc>True</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>tokenizer</span><span class=o>.</span><span class=n>padding_side</span> <span class=o>=</span> <span class=s1>&#39;left&#39;</span>
+</span></span><span class=line><span class=cl><span class=n>tokenizer</span><span class=o>.</span><span class=n>pad_token_id</span> <span class=o>=</span> <span class=n>tokenizer</span><span class=o>.</span><span class=n>eod_id</span></span></span></code></pre></td></tr></table></div></div><br><h3 id=3-加载数据集 class=heading-element><span>3. 加载数据集</span>
+<a href=#3-%e5%8a%a0%e8%bd%bd%e6%95%b0%e6%8d%ae%e9%9b%86 class=heading-mark><svg class="octicon octicon-link" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5.0 114.95 4.95l-2.5 2.5a3.5 3.5.0 01-4.95.0.751.751.0 01.018-1.042.751.751.0 011.042-.018 1.998 1.998.0 002.83.0l2.5-2.5a2.002 2.002.0 00-2.83-2.83l-1.25 1.25a.751.751.0 01-1.042-.018.751.751.0 01-.018-1.042zm-4.69 9.64a1.998 1.998.0 002.83.0l1.25-1.25a.751.751.0 011.042.018.751.751.0 01.018 1.042l-1.25 1.25a3.5 3.5.0 11-4.95-4.95l2.5-2.5a3.5 3.5.0 014.95.0.751.751.0 01-.018 1.042.751.751.0 01-1.042.018 1.998 1.998.0 00-2.83.0l-2.5 2.5a1.998 1.998.0 000 2.83z"/></svg></a></h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span><span class=lnt>61
+</span><span class=lnt>62
+</span><span class=lnt>63
+</span><span class=lnt>64
+</span><span class=lnt>65
+</span><span class=lnt>66
+</span><span class=lnt>67
+</span><span class=lnt>68
+</span><span class=lnt>69
+</span><span class=lnt>70
+</span><span class=lnt>71
+</span><span class=lnt>72
+</span><span class=lnt>73
+</span><span class=lnt>74
+</span><span class=lnt>75
+</span><span class=lnt>76
+</span><span class=lnt>77
+</span><span class=lnt>78
+</span><span class=lnt>79
+</span><span class=lnt>80
+</span><span class=lnt>81
+</span><span class=lnt>82
+</span><span class=lnt>83
+</span><span class=lnt>84
+</span><span class=lnt>85
+</span><span class=lnt>86
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>ds_collections</span> <span class=o>=</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1># style: clotho, audiocaps, or plain</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;clotho&#39;</span><span class=p>:</span> <span class=p>{</span><span class=s1>&#39;path&#39;</span><span class=p>:</span> <span class=s1>&#39;path/to/clotho_eval.jsonl&#39;</span><span class=p>,</span> <span class=s1>&#39;style&#39;</span><span class=p>:</span> <span class=s1>&#39;clotho&#39;</span><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>AudioDataset</span><span class=p>(</span><span class=n>torch</span><span class=o>.</span><span class=n>utils</span><span class=o>.</span><span class=n>data</span><span class=o>.</span><span class=n>Dataset</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>ds</span><span class=p>,</span> <span class=n>prompt</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=n>path</span> <span class=o>=</span> <span class=n>ds</span><span class=p>[</span><span class=s1>&#39;path&#39;</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>output_style</span> <span class=o>=</span> <span class=n>ds</span><span class=p>[</span><span class=s1>&#39;style&#39;</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>datas</span> <span class=o>=</span> <span class=nb>open</span><span class=p>(</span><span class=n>path</span><span class=p>)</span><span class=o>.</span><span class=n>readlines</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>prompt</span> <span class=o>=</span> <span class=n>prompt</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=fm>__len__</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=nb>len</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>datas</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=fm>__getitem__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>idx</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=n>data</span> <span class=o>=</span> <span class=n>json</span><span class=o>.</span><span class=n>loads</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>datas</span><span class=p>[</span><span class=n>idx</span><span class=p>]</span><span class=o>.</span><span class=n>strip</span><span class=p>())</span>
+</span></span><span class=line><span class=cl>        <span class=n>audio_path</span> <span class=o>=</span> <span class=n>data</span><span class=p>[</span><span class=s1>&#39;audio&#39;</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>        <span class=n>source</span> <span class=o>=</span> <span class=n>data</span><span class=p>[</span><span class=s1>&#39;source&#39;</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>        <span class=n>gt</span> <span class=o>=</span> <span class=n>data</span><span class=p>[</span><span class=s1>&#39;gt&#39;</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=s1>&#39;input_text&#39;</span><span class=p>:</span> <span class=bp>self</span><span class=o>.</span><span class=n>prompt</span><span class=o>.</span><span class=n>format</span><span class=p>(</span><span class=n>audio_path</span><span class=p>,</span> <span class=bp>self</span><span class=o>.</span><span class=n>output_style</span><span class=p>),</span>
+</span></span><span class=line><span class=cl>            <span class=s1>&#39;audio_path&#39;</span><span class=p>:</span> <span class=n>audio_path</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>            <span class=s1>&#39;source&#39;</span><span class=p>:</span> <span class=n>source</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>            <span class=s1>&#39;gt&#39;</span><span class=p>:</span> <span class=n>gt</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 取一批次的数据的函数</span>
+</span></span><span class=line><span class=cl><span class=k>def</span> <span class=nf>collate_fn</span><span class=p>(</span><span class=n>inputs</span><span class=p>,</span> <span class=n>tokenizer</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=n>input_texts</span> <span class=o>=</span> <span class=p>[</span><span class=n>_</span><span class=p>[</span><span class=s1>&#39;input_text&#39;</span><span class=p>]</span> <span class=k>for</span> <span class=n>_</span> <span class=ow>in</span> <span class=n>inputs</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>    <span class=n>source</span> <span class=o>=</span> <span class=p>[</span><span class=n>_</span><span class=p>[</span><span class=s1>&#39;source&#39;</span><span class=p>]</span> <span class=k>for</span> <span class=n>_</span> <span class=ow>in</span> <span class=n>inputs</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>    <span class=n>gt</span> <span class=o>=</span> <span class=p>[</span><span class=n>_</span><span class=p>[</span><span class=s1>&#39;gt&#39;</span><span class=p>]</span> <span class=k>for</span> <span class=n>_</span> <span class=ow>in</span> <span class=n>inputs</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>    <span class=n>audio_path</span> <span class=o>=</span> <span class=p>[</span><span class=n>_</span><span class=p>[</span><span class=s1>&#39;audio_path&#39;</span><span class=p>]</span> <span class=k>for</span> <span class=n>_</span> <span class=ow>in</span> <span class=n>inputs</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>    <span class=n>audio_info</span> <span class=o>=</span> <span class=p>[</span><span class=n>tokenizer</span><span class=o>.</span><span class=n>process_audio</span><span class=p>(</span><span class=n>_</span><span class=p>[</span><span class=s1>&#39;input_text&#39;</span><span class=p>])</span> <span class=k>for</span> <span class=n>_</span> <span class=ow>in</span> <span class=n>inputs</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>    <span class=n>input_tokens</span> <span class=o>=</span> <span class=n>tokenizer</span><span class=p>(</span><span class=n>input_texts</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                             <span class=n>return_tensors</span><span class=o>=</span><span class=s1>&#39;pt&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                             <span class=n>padding</span><span class=o>=</span><span class=s1>&#39;longest&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                             <span class=n>audio_info</span><span class=o>=</span><span class=n>audio_info</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=n>input_tokens</span><span class=o>.</span><span class=n>input_ids</span><span class=p>,</span> <span class=n>input_tokens</span><span class=o>.</span><span class=n>attention_mask</span><span class=p>,</span> <span class=n>source</span><span class=p>,</span> <span class=n>gt</span><span class=p>,</span> <span class=n>audio_path</span><span class=p>,</span> <span class=n>audio_info</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 分布式数据分片分发</span>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>InferenceSampler</span><span class=p>(</span><span class=n>torch</span><span class=o>.</span><span class=n>utils</span><span class=o>.</span><span class=n>data</span><span class=o>.</span><span class=n>sampler</span><span class=o>.</span><span class=n>Sampler</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>size</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>_size</span> <span class=o>=</span> <span class=nb>int</span><span class=p>(</span><span class=n>size</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=k>assert</span> <span class=n>size</span> <span class=o>&gt;</span> <span class=mi>0</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>_rank</span> <span class=o>=</span> <span class=n>torch</span><span class=o>.</span><span class=n>distributed</span><span class=o>.</span><span class=n>get_rank</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>_world_size</span> <span class=o>=</span> <span class=n>torch</span><span class=o>.</span><span class=n>distributed</span><span class=o>.</span><span class=n>get_world_size</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>_local_indices</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>_get_local_indices</span><span class=p>(</span><span class=n>size</span><span class=p>,</span> <span class=bp>self</span><span class=o>.</span><span class=n>_world_size</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                                                      <span class=bp>self</span><span class=o>.</span><span class=n>_rank</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nd>@staticmethod</span>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=nf>_get_local_indices</span><span class=p>(</span><span class=n>total_size</span><span class=p>,</span> <span class=n>world_size</span><span class=p>,</span> <span class=n>rank</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=n>shard_size</span> <span class=o>=</span> <span class=n>total_size</span> <span class=o>//</span> <span class=n>world_size</span>
+</span></span><span class=line><span class=cl>        <span class=n>left</span> <span class=o>=</span> <span class=n>total_size</span> <span class=o>%</span> <span class=n>world_size</span>
+</span></span><span class=line><span class=cl>        <span class=n>shard_sizes</span> <span class=o>=</span> <span class=p>[</span><span class=n>shard_size</span> <span class=o>+</span> <span class=nb>int</span><span class=p>(</span><span class=n>r</span> <span class=o>&lt;</span> <span class=n>left</span><span class=p>)</span> <span class=k>for</span> <span class=n>r</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=n>world_size</span><span class=p>)]</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=n>begin</span> <span class=o>=</span> <span class=nb>sum</span><span class=p>(</span><span class=n>shard_sizes</span><span class=p>[:</span><span class=n>rank</span><span class=p>])</span>
+</span></span><span class=line><span class=cl>        <span class=n>end</span> <span class=o>=</span> <span class=nb>min</span><span class=p>(</span><span class=nb>sum</span><span class=p>(</span><span class=n>shard_sizes</span><span class=p>[:</span><span class=n>rank</span> <span class=o>+</span> <span class=mi>1</span><span class=p>]),</span> <span class=n>total_size</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=nb>range</span><span class=p>(</span><span class=n>begin</span><span class=p>,</span> <span class=n>end</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=fm>__iter__</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=k>yield from</span> <span class=bp>self</span><span class=o>.</span><span class=n>_local_indices</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=fm>__len__</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=nb>len</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>_local_indices</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>random</span><span class=o>.</span><span class=n>seed</span><span class=p>(</span><span class=n>args</span><span class=o>.</span><span class=n>seed</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>dataset</span> <span class=o>=</span> <span class=n>AudioDataset</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=n>ds</span><span class=o>=</span><span class=n>ds_collections</span><span class=p>[</span><span class=n>args</span><span class=o>.</span><span class=n>dataset</span><span class=p>],</span>
+</span></span><span class=line><span class=cl>    <span class=n>prompt</span><span class=o>=</span><span class=n>prompt</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># data_loader，作用不必多说</span>
+</span></span><span class=line><span class=cl><span class=n>data_loader</span> <span class=o>=</span> <span class=n>torch</span><span class=o>.</span><span class=n>utils</span><span class=o>.</span><span class=n>data</span><span class=o>.</span><span class=n>DataLoader</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=n>dataset</span><span class=o>=</span><span class=n>dataset</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>sampler</span><span class=o>=</span><span class=n>InferenceSampler</span><span class=p>(</span><span class=nb>len</span><span class=p>(</span><span class=n>dataset</span><span class=p>)),</span>
+</span></span><span class=line><span class=cl>    <span class=n>batch_size</span><span class=o>=</span><span class=n>args</span><span class=o>.</span><span class=n>batch_size</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>num_workers</span><span class=o>=</span><span class=n>args</span><span class=o>.</span><span class=n>num_workers</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>pin_memory</span><span class=o>=</span><span class=kc>True</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>drop_last</span><span class=o>=</span><span class=kc>False</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>collate_fn</span><span class=o>=</span><span class=n>partial</span><span class=p>(</span><span class=n>collate_fn</span><span class=p>,</span> <span class=n>tokenizer</span><span class=o>=</span><span class=n>tokenizer</span><span class=p>),</span>
+</span></span><span class=line><span class=cl><span class=p>)</span></span></span></code></pre></td></tr></table></div></div><br><h3 id=4-评测数据过大模型得到输出 class=heading-element><span>4. 评测数据过大模型得到输出</span>
+<a href=#4-%e8%af%84%e6%b5%8b%e6%95%b0%e6%8d%ae%e8%bf%87%e5%a4%a7%e6%a8%a1%e5%9e%8b%e5%be%97%e5%88%b0%e8%be%93%e5%87%ba class=heading-mark><svg class="octicon octicon-link" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5.0 114.95 4.95l-2.5 2.5a3.5 3.5.0 01-4.95.0.751.751.0 01.018-1.042.751.751.0 011.042-.018 1.998 1.998.0 002.83.0l2.5-2.5a2.002 2.002.0 00-2.83-2.83l-1.25 1.25a.751.751.0 01-1.042-.018.751.751.0 01-.018-1.042zm-4.69 9.64a1.998 1.998.0 002.83.0l1.25-1.25a.751.751.0 011.042.018.751.751.0 01.018 1.042l-1.25 1.25a3.5 3.5.0 11-4.95-4.95l2.5-2.5a3.5 3.5.0 014.95.0.751.751.0 01-.018 1.042.751.751.0 01-1.042.018 1.998 1.998.0 00-2.83.0l-2.5 2.5a1.998 1.998.0 000 2.83z"/></svg></a></h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>gts</span> <span class=o>=</span> <span class=p>[]</span>
+</span></span><span class=line><span class=cl><span class=n>sources</span> <span class=o>=</span> <span class=p>[]</span>
+</span></span><span class=line><span class=cl><span class=n>rets</span> <span class=o>=</span> <span class=p>[]</span>
+</span></span><span class=line><span class=cl><span class=n>audio_paths</span> <span class=o>=</span> <span class=p>[]</span>
+</span></span><span class=line><span class=cl><span class=k>for</span> <span class=n>_</span><span class=p>,</span> <span class=p>(</span><span class=n>input_ids</span><span class=p>,</span> <span class=n>attention_mask</span><span class=p>,</span> <span class=n>source</span><span class=p>,</span> <span class=n>gt</span><span class=p>,</span> <span class=n>audio_path</span><span class=p>,</span> <span class=n>audio_info</span><span class=p>)</span> <span class=ow>in</span> <span class=n>tqdm</span><span class=p>(</span><span class=nb>enumerate</span><span class=p>(</span><span class=n>data_loader</span><span class=p>),</span> <span class=n>total</span><span class=o>=</span><span class=nb>len</span><span class=p>(</span><span class=n>data_loader</span><span class=p>),</span> <span class=n>desc</span><span class=o>=</span><span class=s1>&#39;Evaluaing&#39;</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=c1># -----------------------------------------------------------------------------</span>
+</span></span><span class=line><span class=cl>    <span class=c1># 我的模型的逻辑是将 audio 过模型的 encoder，与 text 过 tokenizer 后的特征 cat 起来，为下面送进大模型做准备</span>
+</span></span><span class=line><span class=cl>    <span class=n>inputs_embeds</span> <span class=o>=</span> <span class=n>model</span><span class=o>.</span><span class=n>prepare_embedding_for_eval</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>        <span class=s1>&#39;Generate the caption in English: &#39;</span><span class=p>,</span> <span class=n>audio_path</span><span class=p>[</span><span class=mi>0</span><span class=p>])</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=c1># 这里注意了，可能你的模型不是这样生成结果的，需要改成自身模型的generate</span>
+</span></span><span class=line><span class=cl>    <span class=n>outputs</span> <span class=o>=</span> <span class=n>model</span><span class=o>.</span><span class=n>generate</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>        <span class=n>inputs_embeds</span><span class=o>=</span><span class=n>inputs_embeds</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=c1># attention_mask=attention_mask.cuda(),</span>
+</span></span><span class=line><span class=cl>        <span class=n>max_new_tokens</span><span class=o>=</span><span class=mi>30</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=n>top_p</span><span class=o>=</span><span class=mf>0.1</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=n>temperature</span><span class=o>=</span><span class=mi>1</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=n>do_sample</span><span class=o>=</span><span class=kc>True</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=n>use_cache</span><span class=o>=</span><span class=kc>True</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=n>output_hidden_states</span><span class=o>=</span><span class=kc>True</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=n>return_dict_in_generate</span><span class=o>=</span><span class=kc>True</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=n>output_attentions</span><span class=o>=</span><span class=kc>False</span>
+</span></span><span class=line><span class=cl>    <span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=c1># 这里的指标计算就是拿到模型输出与 ground truth caption 做 BLEU 这些相似度计算</span>
+</span></span><span class=line><span class=cl>    <span class=n>output_ids</span> <span class=o>=</span> <span class=n>outputs</span><span class=o>.</span><span class=n>sequences</span>
+</span></span><span class=line><span class=cl>    <span class=n>output_text</span> <span class=o>=</span> <span class=n>model</span><span class=o>.</span><span class=n>batch_decode</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>        <span class=n>output_ids</span><span class=p>,</span> <span class=n>skip_special_tokens</span><span class=o>=</span><span class=kc>True</span><span class=p>)[</span><span class=mi>0</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>    <span class=c1># -----------------------------------------------------------------------------</span>
+</span></span><span class=line><span class=cl>    <span class=c1># 需要更改的地方可能只有上面这一段了，只要拿到了输出，后面计算逻辑是一样的</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>eos_token_pos</span> <span class=o>=</span> <span class=n>output_ids</span><span class=o>.</span><span class=n>eq</span><span class=p>(</span><span class=n>tokenizer</span><span class=o>.</span><span class=n>eod_id</span><span class=p>)</span><span class=o>.</span><span class=n>float</span><span class=p>()</span><span class=o>.</span><span class=n>argmax</span><span class=p>(</span><span class=o>-</span><span class=mi>1</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=c1># 注意，这里的 rets 里面一个 [] 是一个元素</span>
+</span></span><span class=line><span class=cl>    <span class=n>rets</span><span class=o>.</span><span class=n>extend</span><span class=p>([</span><span class=n>output_text</span><span class=p>])</span>
+</span></span><span class=line><span class=cl>    <span class=n>gts</span><span class=o>.</span><span class=n>extend</span><span class=p>(</span><span class=n>gt</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>sources</span><span class=o>.</span><span class=n>extend</span><span class=p>(</span><span class=n>source</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>audio_paths</span><span class=o>.</span><span class=n>extend</span><span class=p>(</span><span class=n>audio_path</span><span class=p>)</span></span></span></code></pre></td></tr></table></div></div><br><p>遍历完毕后分布式整合数据</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>torch</span><span class=o>.</span><span class=n>distributed</span><span class=o>.</span><span class=n>barrier</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>world_size</span> <span class=o>=</span> <span class=n>torch</span><span class=o>.</span><span class=n>distributed</span><span class=o>.</span><span class=n>get_world_size</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=n>merged_gts</span> <span class=o>=</span> <span class=p>[</span><span class=kc>None</span> <span class=k>for</span> <span class=n>_</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=n>world_size</span><span class=p>)]</span>
+</span></span><span class=line><span class=cl><span class=n>merged_sources</span> <span class=o>=</span> <span class=p>[</span><span class=kc>None</span> <span class=k>for</span> <span class=n>_</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=n>world_size</span><span class=p>)]</span>
+</span></span><span class=line><span class=cl><span class=n>merged_responses</span> <span class=o>=</span> <span class=p>[</span><span class=kc>None</span> <span class=k>for</span> <span class=n>_</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=n>world_size</span><span class=p>)]</span>
+</span></span><span class=line><span class=cl><span class=n>merged_audio_paths</span> <span class=o>=</span> <span class=p>[</span><span class=kc>None</span> <span class=k>for</span> <span class=n>_</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=n>world_size</span><span class=p>)]</span>
+</span></span><span class=line><span class=cl><span class=n>torch</span><span class=o>.</span><span class=n>distributed</span><span class=o>.</span><span class=n>all_gather_object</span><span class=p>(</span><span class=n>merged_gts</span><span class=p>,</span> <span class=n>gts</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>torch</span><span class=o>.</span><span class=n>distributed</span><span class=o>.</span><span class=n>all_gather_object</span><span class=p>(</span><span class=n>merged_sources</span><span class=p>,</span> <span class=n>sources</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>torch</span><span class=o>.</span><span class=n>distributed</span><span class=o>.</span><span class=n>all_gather_object</span><span class=p>(</span><span class=n>merged_responses</span><span class=p>,</span> <span class=n>rets</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>torch</span><span class=o>.</span><span class=n>distributed</span><span class=o>.</span><span class=n>all_gather_object</span><span class=p>(</span><span class=n>merged_audio_paths</span><span class=p>,</span> <span class=n>audio_paths</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>merged_gts</span> <span class=o>=</span> <span class=p>[</span><span class=n>_</span> <span class=k>for</span> <span class=n>_</span> <span class=ow>in</span> <span class=n>itertools</span><span class=o>.</span><span class=n>chain</span><span class=o>.</span><span class=n>from_iterable</span><span class=p>(</span><span class=n>merged_gts</span><span class=p>)]</span>
+</span></span><span class=line><span class=cl><span class=n>merged_sources</span> <span class=o>=</span> <span class=p>[</span><span class=n>_</span> <span class=k>for</span> <span class=n>_</span> <span class=ow>in</span> <span class=n>itertools</span><span class=o>.</span><span class=n>chain</span><span class=o>.</span><span class=n>from_iterable</span><span class=p>(</span><span class=n>merged_sources</span><span class=p>)]</span>
+</span></span><span class=line><span class=cl><span class=n>merged_audio_paths</span> <span class=o>=</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>    <span class=n>_</span> <span class=k>for</span> <span class=n>_</span> <span class=ow>in</span> <span class=n>itertools</span><span class=o>.</span><span class=n>chain</span><span class=o>.</span><span class=n>from_iterable</span><span class=p>(</span><span class=n>merged_audio_paths</span><span class=p>)]</span>
+</span></span><span class=line><span class=cl><span class=n>merged_responses</span> <span class=o>=</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>    <span class=n>_</span> <span class=k>for</span> <span class=n>_</span> <span class=ow>in</span> <span class=n>itertools</span><span class=o>.</span><span class=n>chain</span><span class=o>.</span><span class=n>from_iterable</span><span class=p>(</span><span class=n>merged_responses</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>]</span></span></span></code></pre></td></tr></table></div></div><br><h3 id=5-开始评测 class=heading-element><span>5. 开始评测</span>
+<a href=#5-%e5%bc%80%e5%a7%8b%e8%af%84%e6%b5%8b class=heading-mark><svg class="octicon octicon-link" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5.0 114.95 4.95l-2.5 2.5a3.5 3.5.0 01-4.95.0.751.751.0 01.018-1.042.751.751.0 011.042-.018 1.998 1.998.0 002.83.0l2.5-2.5a2.002 2.002.0 00-2.83-2.83l-1.25 1.25a.751.751.0 01-1.042-.018.751.751.0 01-.018-1.042zm-4.69 9.64a1.998 1.998.0 002.83.0l1.25-1.25a.751.751.0 011.042.018.751.751.0 01.018 1.042l-1.25 1.25a3.5 3.5.0 11-4.95-4.95l2.5-2.5a3.5 3.5.0 014.95.0.751.751.0 01-.018 1.042.751.751.0 01-1.042.018 1.998 1.998.0 00-2.83.0l-2.5 2.5a1.998 1.998.0 000 2.83z"/></svg></a></h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=c1># 在主卡上，且数据都整合好了就开始做评测</span>
+</span></span><span class=line><span class=cl><span class=k>if</span> <span class=n>torch</span><span class=o>.</span><span class=n>distributed</span><span class=o>.</span><span class=n>get_rank</span><span class=p>()</span> <span class=o>==</span> <span class=mi>0</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>    <span class=nb>print</span><span class=p>(</span><span class=sa>f</span><span class=s2>&#34;Evaluating </span><span class=si>{</span><span class=n>args</span><span class=o>.</span><span class=n>dataset</span><span class=si>}</span><span class=s2> ...&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>results</span> <span class=o>=</span> <span class=p>[]</span>
+</span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=n>gt</span><span class=p>,</span> <span class=n>response</span><span class=p>,</span> <span class=n>source</span><span class=p>,</span> <span class=n>audio_path</span> <span class=ow>in</span> <span class=nb>zip</span><span class=p>(</span><span class=n>merged_gts</span><span class=p>,</span> <span class=n>merged_responses</span><span class=p>,</span> <span class=n>merged_sources</span><span class=p>,</span> <span class=n>merged_audio_paths</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=n>results</span><span class=o>.</span><span class=n>append</span><span class=p>({</span>
+</span></span><span class=line><span class=cl>            <span class=s1>&#39;gt&#39;</span><span class=p>:</span> <span class=n>gt</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>            <span class=s1>&#39;response&#39;</span><span class=p>:</span> <span class=n>response</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>            <span class=s1>&#39;source&#39;</span><span class=p>:</span> <span class=n>source</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>            <span class=s1>&#39;audio_path&#39;</span><span class=p>:</span> <span class=n>audio_path</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=p>})</span>
+</span></span><span class=line><span class=cl>    <span class=n>time_prefix</span> <span class=o>=</span> <span class=n>time</span><span class=o>.</span><span class=n>strftime</span><span class=p>(</span><span class=s1>&#39;%y%m</span><span class=si>%d</span><span class=s1>%H%M%S&#39;</span><span class=p>,</span> <span class=n>time</span><span class=o>.</span><span class=n>localtime</span><span class=p>())</span>
+</span></span><span class=line><span class=cl>    <span class=n>results_file</span> <span class=o>=</span> <span class=sa>f</span><span class=s1>&#39;</span><span class=si>{</span><span class=n>args</span><span class=o>.</span><span class=n>dataset</span><span class=si>}</span><span class=s1>_</span><span class=si>{</span><span class=n>time_prefix</span><span class=si>}</span><span class=s1>.json&#39;</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=c1># 保存这次模型生成好的数据</span>
+</span></span><span class=line><span class=cl>    <span class=n>json</span><span class=o>.</span><span class=n>dump</span><span class=p>(</span><span class=n>results</span><span class=p>,</span> <span class=nb>open</span><span class=p>(</span><span class=n>results_file</span><span class=p>,</span> <span class=s1>&#39;w&#39;</span><span class=p>,</span> <span class=n>encoding</span><span class=o>=</span><span class=s1>&#39;utf-8&#39;</span><span class=p>),</span> <span class=n>ensure_ascii</span><span class=o>=</span><span class=kc>False</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>results_dict</span> <span class=o>=</span> <span class=p>{}</span>
+</span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=n>item</span> <span class=ow>in</span> <span class=n>tqdm</span><span class=p>(</span><span class=n>results</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=n>source</span> <span class=o>=</span> <span class=n>item</span><span class=p>[</span><span class=s2>&#34;source&#34;</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>        <span class=n>results_dict</span><span class=o>.</span><span class=n>setdefault</span><span class=p>(</span><span class=n>source</span><span class=p>,</span> <span class=p>[])</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>item</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=n>source</span> <span class=ow>in</span> <span class=n>results_dict</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>        <span class=n>refs</span><span class=p>,</span> <span class=n>hyps</span> <span class=o>=</span> <span class=p>[],</span> <span class=p>[]</span>
+</span></span><span class=line><span class=cl>        <span class=n>results_list</span> <span class=o>=</span> <span class=n>results_dict</span><span class=p>[</span><span class=n>source</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>        <span class=k>for</span> <span class=n>result</span> <span class=ow>in</span> <span class=n>results_list</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>            <span class=n>gt</span> <span class=o>=</span> <span class=n>result</span><span class=p>[</span><span class=s2>&#34;gt&#34;</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>            <span class=n>response</span> <span class=o>=</span> <span class=n>result</span><span class=p>[</span><span class=s2>&#34;response&#34;</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>            <span class=n>refs</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>gt</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=n>hyps</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>response</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=c1># 这里就是做评测计算的代码，是用开源的代码</span>
+</span></span><span class=line><span class=cl>        <span class=c1># 如果是自己项目需要特定的评测，可以自己在这里改</span>
+</span></span><span class=line><span class=cl>        <span class=n>score_dict</span> <span class=o>=</span> <span class=n>compute_caption</span><span class=p>(</span><span class=n>refs</span><span class=p>,</span> <span class=n>hyps</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        
+</span></span><span class=line><span class=cl>        <span class=c1># 如果做Speech Emotion Recognition ，这里的评测指标就是这个</span>
+</span></span><span class=line><span class=cl>        <span class=c1># score = accuracy_score(refs, hyps)</span>
+</span></span><span class=line><span class=cl>        <span class=nb>print</span><span class=p>(</span><span class=sa>f</span><span class=s2>&#34;source: </span><span class=si>{</span><span class=n>source</span><span class=si>}</span><span class=se>\t</span><span class=s2>cnt: </span><span class=si>{</span><span class=nb>len</span><span class=p>(</span><span class=n>refs</span><span class=p>)</span><span class=si>}</span><span class=se>\t</span><span class=s2>Res: </span><span class=si>{</span><span class=n>score_dict</span><span class=si>}</span><span class=s2>&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>torch</span><span class=o>.</span><span class=n>distributed</span><span class=o>.</span><span class=n>barrier</span><span class=p>()</span></span></span></code></pre></td></tr></table></div></div><br><p>以上就是评测的步骤了，如果是其它任务的话，只需要修改最后的评测指标的计算代码就OK。</p><p>比如要评测Speech Emotion Recognition (SER)，只需要把compute_caption换成sklearn.metrics的accuracy_score函数就好了，哦对了相应的ds_collections数据名字也要修改。</p><p>运行脚本代码：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1># --nproc_per_node 对应你的 CUDA_VISIBLE_DEVICES 的数量</span>
+</span></span><span class=line><span class=cl><span class=nv>ds</span><span class=o>=</span><span class=s1>&#39;clotho&#39;</span>
+</span></span><span class=line><span class=cl><span class=nv>CUDA_VISIBLE_DEVICES</span><span class=o>=</span><span class=m>0</span> python -m torch.distributed.launch --use_env <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>	--nproc_per_node <span class=m>1</span> --nnodes <span class=m>1</span> <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>	evaluate_caption.py</span></span></code></pre></td></tr></table></div></div><br><h3 id=6-遇到的错误以及解决方案 class=heading-element><span>6. 遇到的错误以及解决方案</span>
+<a href=#6-%e9%81%87%e5%88%b0%e7%9a%84%e9%94%99%e8%af%af%e4%bb%a5%e5%8f%8a%e8%a7%a3%e5%86%b3%e6%96%b9%e6%a1%88 class=heading-mark><svg class="octicon octicon-link" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5.0 114.95 4.95l-2.5 2.5a3.5 3.5.0 01-4.95.0.751.751.0 01.018-1.042.751.751.0 011.042-.018 1.998 1.998.0 002.83.0l2.5-2.5a2.002 2.002.0 00-2.83-2.83l-1.25 1.25a.751.751.0 01-1.042-.018.751.751.0 01-.018-1.042zm-4.69 9.64a1.998 1.998.0 002.83.0l1.25-1.25a.751.751.0 011.042.018.751.751.0 01.018 1.042l-1.25 1.25a3.5 3.5.0 11-4.95-4.95l2.5-2.5a3.5 3.5.0 014.95.0.751.751.0 01-.018 1.042.751.751.0 01-1.042.018 1.998 1.998.0 00-2.83.0l-2.5 2.5a1.998 1.998.0 000 2.83z"/></svg></a></h3><p>因为这个评测指标的核心计算代码是斯坦福的NLP小组写的，他们用的是java，caption_evaluation_tools用python调用java来执行，所以遇到的错误全是 java 相关的，这里写出来。</p><p>I. 服务器安装java</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>sudo apt-get install openjdk-8-jre-headless</span></span></code></pre></td></tr></table></div></div><br><p>II. java.lang.NoClassDefFoundError: edu/stanford/nlp/semgraph/semgrex/Semgrex，具体是下面的错误</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>Exception in thread <span class=s2>&#34;main&#34;</span> java.lang.NoClassDefFoundError: edu/stanford/nlp/semgraph/semgrex/SemgrexPattern
+</span></span><span class=line><span class=cl>    at edu.anu.spice.SpiceParser.&lt;clinit&gt;<span class=o>(</span>SpiceParser.java:64<span class=o>)</span>
+</span></span><span class=line><span class=cl>    at edu.anu.spice.SpiceScorer.scoreBatch<span class=o>(</span>SpiceScorer.java:70<span class=o>)</span>
+</span></span><span class=line><span class=cl>    at edu.anu.spice.SpiceScorer.main<span class=o>(</span>SpiceScorer.java:60<span class=o>)</span>
+</span></span><span class=line><span class=cl>Caused by: java.lang.ClassNotFoundException: edu.stanford.nlp.semgraph.semgrex.SemgrexPattern
+</span></span><span class=line><span class=cl>    at java.net.URLClassLoader.findClass<span class=o>(</span>URLClassLoader.java:387<span class=o>)</span>
+</span></span><span class=line><span class=cl>    at java.lang.ClassLoader.loadClass<span class=o>(</span>ClassLoader.java:418<span class=o>)</span>
+</span></span><span class=line><span class=cl>    at sun.misc.Launcher<span class=nv>$AppClassLoader</span>.loadClass<span class=o>(</span>Launcher.java:355<span class=o>)</span>
+</span></span><span class=line><span class=cl>    at java.lang.ClassLoader.loadClass<span class=o>(</span>ClassLoader.java:351<span class=o>)</span></span></span></code></pre></td></tr></table></div></div><p>解决方法：</p><ul><li>我发现源码提供的nlp jar版本是3.4.1，先去<a href=https://stanfordnlp.github.io/CoreNLP/download.html target=_blank rel="external nofollow noopener noreferrer">官网</a>下载 3.6.0 的包，替换掉caption_evaluation_tools/pycocoevalcap/tokenizer/ptbtokenizer.py 下的 3.4.1为 3.6.0。</li><li>将stanford-corenlp-3.6.0.jar和stanford-corenlp-3.6.0-models.jar这两个包放进/path/to/你的环境名/lib/python3.x/site-packages/pycocoeval/spice/lib/ 这里面。</li></ul><br><p>III. java.lang.NoClassDefFoundError: org/slf4j/LoggerFactory 和 java.lang.NoClassDefFoundError: org/apache/log4j/Level 两个错误</p><ul><li>这两个错误都是一样的，缺少包了，去mvnrepository下载 <a href=https://mvnrepository.com/artifact/org.slf4j target=_blank rel="external nofollow noopener noreferrer">SLF4J API和SLF4J LOG4J</a> .jar文件，以及下载 <a href=https://mvnrepository.com/artifact/log4j/log4j target=_blank rel="external nofollow noopener noreferrer">Apache Log4j</a> .jar文件，将它们放到caption_evaluation_tools/pycocoevalcap/spice/lib/ 下。</li><li>然后修改spice.py文件的 spice_cmd，加一个参数 &lsquo;-cp&rsquo;, &rsquo;lib/slf4j-api-1.7.12.jar:lib/slf4j-log4j12-1.7.12.jar:libs/jog4j-1.2.17.jar&rsquo;</li></ul></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span title="更新于 2024-08-16 22:39:57">更新于 2024-08-16 22:39:57&nbsp;</span></div><div class=post-info-license><span><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div><div class=post-info-line><div class=post-info-md></div><div class=post-info-share><span><a href=javascript:void(0); title="分享到 X" data-sharer=twitter data-url=https://zhihengai.github.io/posts/%E9%9F%B3%E9%A2%91%E5%A4%A7%E6%A8%A1%E5%9E%8Bcaption%E8%AF%84%E6%B5%8B%E6%AD%A5%E9%AA%A4/ data-title=音频大模型caption评测步骤 data-hashtags=LLM><i class="fa-brands fa-x-twitter fa-fw" aria-hidden=true></i></a>
+<a href=javascript:void(0); title="分享到 Facebook" data-sharer=facebook data-url=https://zhihengai.github.io/posts/%E9%9F%B3%E9%A2%91%E5%A4%A7%E6%A8%A1%E5%9E%8Bcaption%E8%AF%84%E6%B5%8B%E6%AD%A5%E9%AA%A4/ data-hashtag=LLM><i class="fa-brands fa-facebook-square fa-fw" aria-hidden=true></i></a>
+<a href=javascript:void(0); title="分享到 WhatsApp" data-sharer=whatsapp data-url=https://zhihengai.github.io/posts/%E9%9F%B3%E9%A2%91%E5%A4%A7%E6%A8%A1%E5%9E%8Bcaption%E8%AF%84%E6%B5%8B%E6%AD%A5%E9%AA%A4/ data-title=音频大模型caption评测步骤 data-web><i class="fa-brands fa-whatsapp fa-fw" aria-hidden=true></i></a>
+<a href=javascript:void(0); title="分享到 Line" data-sharer=line data-url=https://zhihengai.github.io/posts/%E9%9F%B3%E9%A2%91%E5%A4%A7%E6%A8%A1%E5%9E%8Bcaption%E8%AF%84%E6%B5%8B%E6%AD%A5%E9%AA%A4/ data-title=音频大模型caption评测步骤><i data-svg-src=../../lib/simple-icons/icons/line.min.svg aria-hidden=true></i></a>
+<a href=javascript:void(0); title="分享到 微博" data-sharer=weibo data-url=https://zhihengai.github.io/posts/%E9%9F%B3%E9%A2%91%E5%A4%A7%E6%A8%A1%E5%9E%8Bcaption%E8%AF%84%E6%B5%8B%E6%AD%A5%E9%AA%A4/ data-title=音频大模型caption评测步骤><i class="fa-brands fa-weibo fa-fw" aria-hidden=true></i></a>
+<a href=javascript:void(0); title="分享到 Myspace" data-sharer=myspace data-url=https://zhihengai.github.io/posts/%E9%9F%B3%E9%A2%91%E5%A4%A7%E6%A8%A1%E5%9E%8Bcaption%E8%AF%84%E6%B5%8B%E6%AD%A5%E9%AA%A4/ data-title=音频大模型caption评测步骤 data-description><i data-svg-src=../../lib/simple-icons/icons/myspace.min.svg aria-hidden=true></i></a>
+<a href=javascript:void(0); title="分享到 Blogger" data-sharer=blogger data-url=https://zhihengai.github.io/posts/%E9%9F%B3%E9%A2%91%E5%A4%A7%E6%A8%A1%E5%9E%8Bcaption%E8%AF%84%E6%B5%8B%E6%AD%A5%E9%AA%A4/ data-title=音频大模型caption评测步骤 data-description><i class="fa-brands fa-blogger fa-fw" aria-hidden=true></i></a>
+<a href=javascript:void(0); title="分享到 Evernote" data-sharer=evernote data-url=https://zhihengai.github.io/posts/%E9%9F%B3%E9%A2%91%E5%A4%A7%E6%A8%A1%E5%9E%8Bcaption%E8%AF%84%E6%B5%8B%E6%AD%A5%E9%AA%A4/ data-title=音频大模型caption评测步骤><i class="fa-brands fa-evernote fa-fw" aria-hidden=true></i></a></span></div></div></div><div class=post-info-more><section class=post-tags></section><section><span><a href=javascript:void(0); onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=../../>主页</a></span></section></div><div class=post-nav><a href=../../posts/deepspeed%E5%A4%9A%E6%9C%BA%E5%A4%9A%E5%8D%A1%E8%AE%AD%E7%BB%83%E4%B8%AD%E9%85%8D%E7%BD%AE%E4%BB%A5%E5%8F%8A%E5%87%BA%E7%8E%B0%E7%9A%84%E9%97%AE%E9%A2%98/ class=post-nav-item rel=prev title=Deepspeed多机多卡训练中配置以及出现的问题><i class="fa-solid fa-angle-left fa-fw" aria-hidden=true></i>Deepspeed多机多卡训练中配置以及出现的问题</a>
+<a href=../../posts/3%E5%88%86%E9%92%9F%E5%88%A9%E7%94%A8ai%E5%88%B6%E4%BD%9Cppt/ class=post-nav-item rel=next title=3分钟利用AI制作PPT>3分钟利用AI制作PPT<i class="fa-solid fa-angle-right fa-fw" aria-hidden=true></i></a></div></div><div class=post-reward><div class=comment>Buy me a coffee</div><input type=checkbox class=reward-input name=reward id=fi-reward hidden>
+<label class=reward-button for=fi-reward><i class="fa-solid fa-qrcode fa-fw" aria-hidden=true></i>赞赏</label><div class=reward-ways data-mode=static><div><img loading=lazy src=../../pay/wechatpay.jpg alt="zhiheng 微信" data-title="zhiheng 微信" style="background:url(/images/loading.min.svg)no-repeat 50%" onload='this.title=this.dataset.title;for(const e of["style","data-title","onerror","onload"])this.removeAttribute(e);this.dataset.lazyloaded=""' onerror='this.title=this.dataset.title;for(const e of["style","data-title","onerror","onload"])this.removeAttribute(e)'><span data-animation>微信</span></div></div></div><div id=comments><div id=giscus class=comment><script src=https://giscus.app/client.js data-repo data-repo-id data-category data-category-id data-mapping=pathname data-strict=0 data-theme=preferred_color_scheme data-reactions-enabled=1 data-emit-metadata=0 data-input-position=top data-lang=zh-CN data-loading=lazy crossorigin=anonymous async defer></script></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://giscus.app/ rel="external nofollow noopener noreferrer">giscus</a>.</noscript></div></article><aside class=toc id=toc-auto aria-label=目录><h2 class=toc-title>目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden=true></i></h2><div class="toc-content always-active" id=toc-content-auto></div></aside></main><footer class=footer><div class=footer-container><div class="footer-line powered">由 <a href=https://gohugo.io/ target=_blank rel="external nofollow noopener noreferrer" title="Hugo 0.131.0"><img class=hugo-icon src=../../images/hugo.min.svg alt="Hugo logo"> Hugo</a> 强力驱动 | 主题 - <a href=https://github.com/hugo-fixit/FixIt target=_blank rel=external title="FixIt v0.3.10-24873c5e"><img class=fixit-icon src=../../images/fixit.min.svg alt="FixIt logo"> FixIt</a></div><div class="footer-line copyright" itemscope itemtype=http://schema.org/CreativeWork><span class=author itemprop=copyrightHolder><a href=https://github.com/zhihengAI target=_blank rel="external nofollow noopener noreferrer">zhiheng</a></span><span class="license footer-divider"><a rel="license external nofollow noopener noreferrer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div><div class="footer-line statistics"><span class=site-time title=网站运行中……><i class="fa-solid fa-heartbeat fa-fw animate-icon" aria-hidden=true></i><span class="run-times ms-1">网站运行中……</span></span></div></div></footer></div><div class=widgets><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role=button aria-label=回到顶部><i class="fa-solid fa-arrow-up fa-fw" aria-hidden=true></i><span class=variant-numeric>0%</span></div><div class="fixed-button view-comments d-none" role=button aria-label=查看评论><i class="fa-solid fa-comment fa-fw" aria-hidden=true></i></div></div><div id=mask></div><div class=reading-progress-bar style=left:0;top:0></div><noscript><div class=noscript-warning>该网站在启用 JavaScript 的情况下效果最佳。</div></noscript></div><link rel=stylesheet href=../../lib/lightgallery/css/lightgallery-bundle.min.120f067ebd6f322339e2ccccd7e87e334d7c7ea5b2bd553f325f2ae3c3ae6fe8.css integrity="sha256-Eg8Gfr1vMiM54szM1+h+M018fqWyvVU/Ml8q48Oub+g="><link rel=preload href=../../lib/katex/katex.min.7fcad90fec5779332198a785f8ffb5af9cdf8d41a6fac42ff420bbb526d9c01b.css integrity="sha256-f8rZD+xXeTMhmKeF+P+1r5zfjUGm+sQv9CC7tSbZwBs=" as=style onload='this.removeAttribute("onload"),this.rel="stylesheet"'><noscript><link rel=stylesheet href=../../lib/katex/katex.min.7fcad90fec5779332198a785f8ffb5af9cdf8d41a6fac42ff420bbb526d9c01b.css integrity="sha256-f8rZD+xXeTMhmKeF+P+1r5zfjUGm+sQv9CC7tSbZwBs="></noscript><script src=../../lib/autocomplete/autocomplete.min.efcd9994416f8ef0e9904c0ebc34d39ab92f5fe72a60224553434d3a818b25e5.js integrity="sha256-782ZlEFvjvDpkEwOvDTTmrkvX+cqYCJFU0NNOoGLJeU=" defer></script><script src=../../lib/lightgallery/lightgallery.min.fd89888c69a37f6850ff5718231f26bf502310de8489dc5111da0db5d9f51b57.js integrity="sha256-/YmIjGmjf2hQ/1cYIx8mv1AjEN6EidxREdoNtdn1G1c=" defer></script><script src=../../lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.a502d6f402482d60810b3e6965bd06cac0290f5284a79037c90bece078ed29cd.js integrity="sha256-pQLW9AJILWCBCz5pZb0GysApD1KEp5A3yQvs4HjtKc0=" defer></script><script src=../../lib/lightgallery/plugins/zoom/lg-zoom.min.d26a9098ce778cc15f30cf87b310bd6850f4d6601b06dbde5205454058b8cbc3.js integrity="sha256-0mqQmM53jMFfMM+HsxC9aFD01mAbBtveUgVFQFi4y8M=" defer></script><script src=../../lib/sharer/sharer.min.120e6e8efffc699bdbb3b51ae482f45d0b9670e4e3032651a29beac9d5692878.js integrity="sha256-Eg5ujv/8aZvbs7Ua5IL0XQuWcOTjAyZRopvqydVpKHg=" async defer></script><script src=../../lib/katex/katex.min.9f45307c5794ed247a0d095f3a62e52ef2215a67b2327203a7fd919959ae79d1.js integrity="sha256-n0UwfFeU7SR6DQlfOmLlLvIhWmeyMnIDp/2RmVmuedE=" defer></script><script src=../../lib/katex/auto-render.min.7b57d427ac6270677daf8d8380ded2cc73336f9149a167b8e1fe0d6ef66604ae.js integrity="sha256-e1fUJ6xicGd9r42DgN7SzHMzb5FJoWe44f4NbvZmBK4=" defer></script><script src=../../lib/katex/copy-tex.min.07770af90943a1de1a1010794bc78c6a7346d46d48fb63e35cc76ba76b827604.js integrity="sha256-B3cK+QlDod4aEBB5S8eManNG1G1I+2PjXMdrp2uCdgQ=" defer></script><script src=../../lib/katex/mhchem.min.f0ca03df194b8c3d6017ff455db6a0ef98857905663fa311a6cded788b15340b.js integrity="sha256-8MoD3xlLjD1gF/9FXbag75iFeQVmP6MRps3teIsVNAs=" defer></script><script src=../../lib/pangu/pangu.min.bc530d67a12c4370e6bb794fc7f9aef5955d8d4b13c6fbb6dbc1f73006b76063.js integrity="sha256-vFMNZ6EsQ3Dmu3lPx/mu9ZVdjUsTxvu228H3MAa3YGM=" defer></script><script>window.config={autoBookmark:!0,code:{copyTitle:"复制到剪贴板",maxShownLines:30},comment:{enable:!0,expired:!1,giscus:{darkTheme:"dark",lightTheme:"light",origin:"https://giscus.app"}},enablePWA:!0,lightgallery:!0,math:{delimiters:[{display:!0,left:"$$",right:"$$"},{display:!0,left:"\\[",right:"\\]"},{display:!0,left:"\\begin{equation}",right:"\\end{equation}"},{display:!0,left:"\\begin{equation*}",right:"\\end{equation*}"},{display:!0,left:"\\begin{align}",right:"\\end{align}"},{display:!0,left:"\\begin{align*}",right:"\\end{align*}"},{display:!0,left:"\\begin{alignat}",right:"\\end{alignat}"},{display:!0,left:"\\begin{alignat*}",right:"\\end{alignat*}"},{display:!0,left:"\\begin{gather}",right:"\\end{gather}"},{display:!0,left:"\\begin{CD}",right:"\\end{CD}"},{display:!1,left:"$",right:"$"},{display:!1,left:"\\(",right:"\\)"}],strict:!1},pangu:{enable:!0,selector:"article"},search:{highlightTag:"em",maxResultLength:10,noResultsFound:"没有找到结果",snippetLength:50},siteTime:"2024-08-10T20:00:00+08:00",version:"v0.3.10-24873c5e"}</script><script src=../../js/theme.min.84978b2e1c565946215642cda9b302ed6e29b281c574950300b97cd5f4c3ccc2.js integrity="sha256-hJeLLhxWWUYhVkLNqbMC7W4psoHFdJUDALl81fTDzMI=" defer></script></body></html>
